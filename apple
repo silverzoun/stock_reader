@@ -1,0 +1,30 @@
+import requests
+
+def get_apple_stock_price():
+    """
+    This function retrieves the current stock price of Apple using the Alpha Vantage API.
+    
+    Returns:
+    float: The current stock price of Apple
+    """
+    try:
+        # Make a request to the Alpha Vantage API
+        response = requests.get("https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=AAPL&apikey=YOUR_API_KEY")
+        
+        # Check if the request was successful
+        if response.status_code == 200:
+            # Parse the JSON response
+            data = response.json()
+            
+            # Extract the stock price from the response
+            stock_price = float(data["Global Quote"]["05. price"])
+            
+            return stock_price
+        else:
+            # Log the error if the request was not successful
+            print(f"Error: Failed to retrieve stock price. Status code: {response.status_code}")
+            return None
+    except Exception as e:
+        # Log any other exceptions that occur
+        print(f"Error: {e}")
+        return None
